@@ -4,14 +4,35 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Admin extends AdminControl {
-    public Admin(HashMap<String, String> DicHashMap, String srcDic) {
+    private String username;
+    private String pass;
+
+    public Admin(HashMap<String, String> DicHashMap, String srcDic, String username, String pass) {
         super(DicHashMap, srcDic);
+        this.username = username;
+        this.pass = pass;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public void showMenu() {
         System.out.println(print('-', 100));
         System.out.println("1.search word   2.view word searched   3.export list word searched   4.add word");
-        System.out.println("5.change word   6.delete word          7.log out                     8.exit");
+        System.out.println("5.change word   6.delete word          7.log out                     8.change account  9.exit");
         System.out.println(print('-', 100));
         System.out.print("choose: ");
         int choice = scanner.nextInt();
@@ -59,15 +80,26 @@ public class Admin extends AdminControl {
             }
             case 8: {
                 scanner.nextLine();
+                changeAccount();
+                break;
+            }
+            case 9: {
+                scanner.nextLine();
                 return;
             }
         }
         showMenu();
     }
 
-
-
-
+    public void changeAccount() {
+        System.out.print("new username: ");
+        String newUserName = scanner.nextLine();
+        System.out.print("new pass: ");
+        String newPass = scanner.nextLine();
+        this.setUsername(newUserName);
+        this.setPass(newPass);
+        System.out.println("change success!");
+    }
 
     public boolean LogOut() {
         System.out.print("are you sure? y/n: ");

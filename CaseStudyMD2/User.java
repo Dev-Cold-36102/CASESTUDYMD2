@@ -1,6 +1,5 @@
 package CaseStudyMD2;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -12,39 +11,37 @@ public class User {
     public User(String srcDic, HashMap<String, String> dicHashMap) {
         this.srcDic = srcDic;
         DicHashMap = dicHashMap;
+
     }
 
-    public boolean isGuestOrAdmin() {
-        System.out.print("username: ");
-        String username = scanner.nextLine();
-        System.out.print("pass: ");
-        String pass = scanner.nextLine();
-        String submitReLogin = "";
-        while (!username.equals("CSMD2") || !pass.equals("C1119H1")) {
-            System.out.print("username or pass is incorrect");
-            System.out.print("input 'y' to relogin or 'n' to Log in as a guest: ");
-            submitReLogin = scanner.nextLine();
-            if (submitReLogin.equals(String.valueOf('y'))) {
-                isGuestOrAdmin();
-            } else return false;
-        }
-        return true;
-    }
 
     public void logIn() {
-        Admin admin = new Admin(this.DicHashMap, srcDic);
+        Admin admin = new Admin(this.DicHashMap, srcDic, "khai", "khai");
         Guest guest = new Guest(this.DicHashMap, admin);
         System.out.println("1.log in       2.Log in as a guest");
         int choice = scanner.nextInt();
-        scanner.nextLine();
+        String username;
+        String pass;
         if (choice == 1) {
-            if (isGuestOrAdmin()) {
-                System.out.println("Log in success!");
-                admin.showMenu();
-            }
+            scanner.nextLine();
+            do {
+                System.out.print("username: ");
+                username = scanner.nextLine();
+                System.out.print("pass: ");
+                pass = scanner.nextLine();
+                if (!username.equals(admin.getUsername()) || !pass.equals(admin.getPass())) {
+                    System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
+                    int submit = scanner.nextInt();
+                    if (submit == 2)
+                        break;
+                } else {
+                    System.out.println("log in success!");
+                    admin.showMenu();
+                }
+            } while (!username.equals(admin.getUsername()) || !pass.equals(admin.getPass()));
         }
-        System.out.println("\nLog in as a guest");
         guest.showMenu();
 
     }
 }
+
