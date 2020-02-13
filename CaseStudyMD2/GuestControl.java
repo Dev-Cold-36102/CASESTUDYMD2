@@ -17,7 +17,6 @@ public class GuestControl extends ControlAbstract {
     }
 
 
-
     public void searchWord() {
         System.out.print("Please enter the word: ");
         String keySearch = scanner.nextLine();
