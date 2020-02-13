@@ -15,7 +15,7 @@ public class User {
     }
 
     public boolean isGuestOrAdmin() {
-        System.out.print(" username: ");
+        System.out.print("username: ");
         String username = scanner.nextLine();
         System.out.print("pass: ");
         String pass = scanner.nextLine();
@@ -32,12 +32,17 @@ public class User {
     }
 
     public void logIn() {
-        Admin admin=new Admin(this.DicHashMap,srcDic);
-        Guest guest=new Guest(this.DicHashMap,admin);
-        if (isGuestOrAdmin()) {
-            admin.showMenu();
-        } else {
-            guest.showMenu();
-        }
+        Admin admin = new Admin(this.DicHashMap, srcDic);
+        Guest guest = new Guest(this.DicHashMap, admin);
+        System.out.println("1.log in       2.Log in as a guest");
+        int choice = scanner.nextInt();
+        if (choice == 1) {
+            if (isGuestOrAdmin()) {
+                admin.showMenu();
+            } else {
+                guest.showMenu();
+            }
+        } else guest.showMenu();
+
     }
 }

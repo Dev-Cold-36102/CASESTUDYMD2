@@ -19,10 +19,10 @@ public class AdminControl extends GuestControl {
 
 
     public void showMenu() {
-        System.out.println(print('-',100));
+        System.out.println(print('-', 100));
         System.out.println("1.search word   2.view word searched   3.export list word searched   4.add word");
         System.out.println("5.change word   6.delete word          7.log out                     8.exit");
-        System.out.println(print('-',100));
+        System.out.println(print('-', 100));
         System.out.print("choose: ");
         int choice = scanner.nextInt();
         switch (choice) {
@@ -67,13 +67,14 @@ public class AdminControl extends GuestControl {
             }
             case 8: {
                 scanner.nextLine();
-              return;
+                return;
             }
         }
         showMenu();
     }
 
-    public void LogOut() {}
+    public void LogOut() {
+    }
 
     public void addNewWord() {
         System.out.println("please input:");

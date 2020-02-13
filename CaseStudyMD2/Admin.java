@@ -1,15 +1,10 @@
 package CaseStudyMD2;
 
-import java.io.File;
 import java.util.HashMap;
 
 public class Admin extends AdminControl {
-
-
     public Admin(HashMap<String, String> DicHashMap, String srcDic) {
         super(DicHashMap, srcDic);
-
-
     }
 
     @Override

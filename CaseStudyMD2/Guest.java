@@ -3,14 +3,15 @@ package CaseStudyMD2;
 import java.util.HashMap;
 
 public class Guest extends GuestControl {
-    private  Admin admin;
-    public Guest(HashMap<String, String> DicHashMap,Admin admin) {
+    private Admin admin;
+
+    public Guest(HashMap<String, String> DicHashMap, Admin admin) {
         super(DicHashMap);
-        this.admin=admin;
+        this.admin = admin;
     }
 
     public boolean isGuestOrAdmin() {
-        System.out.print(" username: ");
+        System.out.print("username: ");
         String username = scanner.nextLine();
         System.out.print("pass: ");
         String pass = scanner.nextLine();
@@ -26,11 +27,12 @@ public class Guest extends GuestControl {
         return true;
     }
 
-@Override
+    @Override
     public void logIn() {
         if (isGuestOrAdmin()) {
             System.out.println("log in success!");
             this.admin.showMenu();
-        } showMenu();
+        }
+        showMenu();
     }
 }

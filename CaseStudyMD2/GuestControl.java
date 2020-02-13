@@ -4,24 +4,24 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GuestControl extends GuestControlAbstract {
+public class GuestControl extends ControlAbstract {
     private HashMap<String, String> DicHashMap;
     private ArrayList<String> wordSearchedList = new ArrayList();
     Scanner scanner = new Scanner(System.in);
+
     public GuestControl(HashMap<String, String> DicHashMap) {
         this.DicHashMap = DicHashMap;
     }
 
 
     public void showMenu() {
-        System.out.println(print('-',100));
+        System.out.println(print('-', 100));
         System.out.println("1.search word   2.view word searched   3.export list word searched");
         System.out.println("4.log in        5.exit");
-        System.out.println(print('-',100));
+        System.out.println(print('-', 100));
         System.out.print("choose: ");
         int choice = scanner.nextInt();
         switch (choice) {
@@ -51,7 +51,7 @@ public class GuestControl extends GuestControlAbstract {
             }
             case 5: {
                 scanner.nextLine();
-               return;
+                return;
             }
         }
         showMenu();
@@ -94,8 +94,6 @@ public class GuestControl extends GuestControlAbstract {
             }
         }
     }
-
-
 
 
     @Override
@@ -297,6 +295,8 @@ public class GuestControl extends GuestControlAbstract {
             e.printStackTrace();
         }
     }
-    public void logIn(){}
+
+    public void logIn() {
+    }
 
 }
