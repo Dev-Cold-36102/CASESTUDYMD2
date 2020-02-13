@@ -15,7 +15,7 @@ public class AdminControl extends GuestControl {
 
     public AdminControl(HashMap<String, String> DicHashMap, String srcDic) {
         super(DicHashMap);
-         this.DicHashMap  = DicHashMap;
+        this.DicHashMap = DicHashMap;
         File fileDic = new File(srcDic);
         this.srcDicFile = fileDic;
     }
@@ -93,18 +93,14 @@ public class AdminControl extends GuestControl {
         System.out.print("new mean(Use _ to separate between lines): ");
         String newMean = scanner.nextLine();
         String stringDic = creatStringDic();
-        String regexMean = "^/(.*?)(_\\*)(.*?)$";
+        String regexMean = "^/(.*?)_(.*?)$";
         Pattern pattern = Pattern.compile(regexMean);
         Matcher matcher = pattern.matcher(this.DicHashMap.get(keyChange));
         if (matcher.matches()) {
-            String oldMean = matcher.group(3);
-            oldMean = oldMean.replaceAll("\\s", "#+");
-//            System.out.println(matcher.matches());
-//            System.out.println(oldMean);
+            String oldMean = matcher.group(2);
 
-            stringDic = stringDic.replace(oldMean, newMean);
+            stringDic = stringDic.replace(oldMean, "*" + newMean);
         }
-        stringDic = stringDic.replaceAll("(#+)", " ");
         stringDic = stringDic.replaceAll("_", "\n");
         writeFile(this.srcDicFile, stringDic, false);
     }
@@ -113,20 +109,18 @@ public class AdminControl extends GuestControl {
     public void deleteWord() {
         System.out.print("enter the word you want to delete: ");
         String wordDelete = scanner.nextLine();
-        String stringDic=creatStringDic();
-        String regexFull = "@("+wordDelete+")\\s/(.*?)_{2}";
+        String stringDic = creatStringDic();
+        String regexFull = "@(" + wordDelete + ")\\s/(.*?)_{2}";
         Pattern pattern = Pattern.compile(regexFull);
-        Matcher matcher=pattern.matcher(stringDic);
+        Matcher matcher = pattern.matcher(stringDic);
 
         if (matcher.find()) {
-            String entryDelete="_@"+wordDelete+" /"+matcher.group(2)+"__";
-            stringDic=stringDic.replace(entryDelete,"_");
+            String entryDelete = "_@" + wordDelete + " /" + matcher.group(2) + "__";
+            stringDic = stringDic.replace(entryDelete, "_");
         }
         stringDic = stringDic.replaceAll("_", "\n");
         writeFile(this.srcDicFile, stringDic, false);
     }
-
-
 
     public String creatStringDic() {
         FileInputStream inputStream = null;
