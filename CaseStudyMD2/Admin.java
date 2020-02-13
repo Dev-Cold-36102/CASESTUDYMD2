@@ -105,6 +105,7 @@ public class Admin extends AdminControl {
         System.out.print("are you sure? y/n: ");
         String submit = scanner.nextLine();
         if (submit.equals(String.valueOf('y'))) {
+            System.out.println("log out done!");
             return true;
         } else return false;
     }

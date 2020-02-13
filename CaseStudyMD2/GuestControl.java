@@ -31,6 +31,7 @@ public class GuestControl extends ControlAbstract {
             searchWord();
         } else {
             wordSearchedList.add(keySearch);
+
             System.out.println("1. PRONOUNCE\n2.TYPE OF WORD\n3.MEAN\n4.FULL");
             System.out.print("please enter the value you want to search: ");
             int valueSearch = scanner.nextInt();
@@ -141,7 +142,7 @@ public class GuestControl extends ControlAbstract {
                     System.out.printf("\n|%-38s%-25s%s", " ", keyType, typeWordAndMeanMap.get(keyType).replaceAll("_", "\n" + print(' ', 65)));
             }
         }
-
+        System.out.println("\n");
     }
 
     public String print(char ch, int amountOfCh) {

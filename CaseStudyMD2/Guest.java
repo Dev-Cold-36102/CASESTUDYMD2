@@ -64,8 +64,10 @@ public class Guest extends GuestControl {
             if (!username.equals(this.admin.getUsername()) || !pass.equals(this.admin.getPass())) {
                 System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
                 int submit = scanner.nextInt();
-                if (submit == 2)
+                if (submit == 2){
                     break;
+                } else scanner.nextLine();
+
             } else {
                 System.out.println("log in success!");
                 this.admin.showMenu();

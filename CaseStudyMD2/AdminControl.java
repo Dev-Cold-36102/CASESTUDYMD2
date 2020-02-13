@@ -106,19 +106,28 @@ public class AdminControl extends GuestControl {
         String newMean = scanner.nextLine();
         String stringDic = "@";
         String regexMean = "^/(.*?)_(.*?)$";
+        String regex_="_";
+        Pattern pattern_=Pattern.compile(regex_);
         Pattern pattern = Pattern.compile(regexMean);
+        Matcher matcher_=pattern_.matcher(newMean);
         Matcher matcher = pattern.matcher(this.DicHashMap.get(keyChange));
         String pronounce = "";
         if (matcher.find()) {
             pronounce = matcher.group(1);
         }
+        if (matcher_.find()) {
+            newMean=newMean.replaceAll("_","\n");
+        }
         for (HashMap.Entry<String, String> entry : this.DicHashMap.entrySet()) {
             if (entry.getKey().equals(keyChange)) {
-                stringDic += entry.getKey() + " " + pronounce + "\n" + newMean.replaceAll("_", "\n");
-            } else {
+                stringDic += entry.getKey() + " " + pronounce + "\n" + newMean;
+
+                }
+
+             else {
                 Matcher matcher1 = pattern.matcher(entry.getValue());
                 if (matcher1.find())
-                    stringDic += entry.getKey() + " " + matcher1.group(1) + "\n" + matcher1.group(2).replaceAll("_", "\n");
+                    stringDic += entry.getKey() + " " + entry.getValue().replaceAll("_","\n");
             }
             stringDic += "\n\n" + "@";
         }
