@@ -36,13 +36,15 @@ public class User {
         Guest guest = new Guest(this.DicHashMap, admin);
         System.out.println("1.log in       2.Log in as a guest");
         int choice = scanner.nextInt();
+        scanner.nextLine();
         if (choice == 1) {
             if (isGuestOrAdmin()) {
+                System.out.println("Log in success!");
                 admin.showMenu();
-            } else {
-                guest.showMenu();
             }
-        } else guest.showMenu();
+        }
+        System.out.println("\nLog in as a guest");
+        guest.showMenu();
 
     }
 }
