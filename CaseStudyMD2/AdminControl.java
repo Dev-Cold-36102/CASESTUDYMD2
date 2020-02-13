@@ -109,24 +109,24 @@ public class AdminControl extends GuestControl {
         writeFile(this.srcDicFile, stringDic, false);
     }
 
+
     public void deleteWord() {
         System.out.print("enter the word you want to delete: ");
         String wordDelete = scanner.nextLine();
-        this.DicHashMap.remove(wordDelete);
-        String stringDic = "";
-        String regexMean = "^/(.*?)_(.*?)$";
-        Pattern pattern = Pattern.compile(regexMean);
-        for (String keyWord : this.DicHashMap.keySet()) {
-            Matcher matcherMean = pattern.matcher(this.DicHashMap.get(keyWord));
-                if (!keyWord.equals(wordDelete)) {
-                    stringDic +="@"+ keyWord + " " + this.DicHashMap.get(keyWord).replaceAll("//","/")+"\n\n";
-                }
+        String stringDic=creatStringDic();
+        String regexFull = "@("+wordDelete+")\\s/(.*?)_{2}";
+        Pattern pattern = Pattern.compile(regexFull);
+        Matcher matcher=pattern.matcher(stringDic);
 
+        if (matcher.find()) {
+            String entryDelete="_@"+wordDelete+" /"+matcher.group(2)+"__";
+            stringDic=stringDic.replace(entryDelete,"_");
         }
         stringDic = stringDic.replaceAll("_", "\n");
-        stringDic += "@";
         writeFile(this.srcDicFile, stringDic, false);
     }
+
+
 
     public String creatStringDic() {
         FileInputStream inputStream = null;
