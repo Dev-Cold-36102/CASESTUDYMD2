@@ -69,6 +69,7 @@ public class Guest extends GuestControl {
             } else {
                 System.out.println("log in success!");
                 this.admin.showMenu();
+                break;
             }
         } while (!username.equals(admin.getUsername()) || !pass.equals(admin.getPass()));
         showMenu();
