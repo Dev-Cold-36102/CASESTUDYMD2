@@ -239,6 +239,7 @@ public class GuestControl extends ControlAbstract {
         }
         if (countApproximateWord == 0) {
             System.out.println("Sorry, we can't find!");
+            System.exit(0);
         }
     }
 

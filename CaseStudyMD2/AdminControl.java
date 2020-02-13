@@ -1,8 +1,11 @@
 package CaseStudyMD2;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,14 +15,10 @@ public class AdminControl extends GuestControl {
 
     public AdminControl(HashMap<String, String> DicHashMap, String srcDic) {
         super(DicHashMap);
-        this.DicHashMap = DicHashMap;
+         this.DicHashMap  = DicHashMap;
         File fileDic = new File(srcDic);
         this.srcDicFile = fileDic;
     }
-
-
-
-
 
 
     public void addNewWord() {
@@ -68,69 +67,45 @@ public class AdminControl extends GuestControl {
     public void changeWord(String keyChange) {
         System.out.print("new word:");
         String newWord = scanner.nextLine();
-        String stringDic = "@";
-        for (HashMap.Entry<String, String> entry : this.DicHashMap.entrySet()) {
-            if (entry.getKey().equals(keyChange)) {
-                stringDic += newWord + " " + entry.getValue().replaceAll("_", "\n") + "\n\n@";
-            } else stringDic += entry.getKey() + " " + entry.getValue().replaceAll("_", "\n") + "\n\n@";
-        }
+        String stringDic = creatStringDic();
+        stringDic = stringDic.replaceAll(keyChange, newWord);
+        stringDic = stringDic.replaceAll("_", "\n");
         writeFile(this.srcDicFile, stringDic, false);
     }
 
     public void changePronounce(String keyChange) {
         System.out.print("new pronounce:/.../ :");
         String newPronounce = scanner.nextLine();
-        String stringDic = "@";
+        String stringDic = creatStringDic();
         String regexMean = "^/(.*?)_(.*?)$";
         Pattern pattern = Pattern.compile(regexMean);
         Matcher matcher = pattern.matcher(this.DicHashMap.get(keyChange));
-        String mean = "";
-        if (matcher.find()) {
-            mean = matcher.group(2);
+
+        if (matcher.matches()) {
+            String oldPronounce = matcher.group(1);
+            stringDic = stringDic.replaceAll(oldPronounce, newPronounce);
         }
-        for (HashMap.Entry<String, String> entry : this.DicHashMap.entrySet()) {
-            if (entry.getKey().equals(keyChange)) {
-                stringDic += entry.getKey() + " " + newPronounce + "\n" + mean.replaceAll("_", "\n");
-            } else {
-                Matcher matcher1 = pattern.matcher(entry.getValue());
-                if (matcher1.find())
-                    stringDic += entry.getKey() + " " + matcher1.group(1) + "\n" + matcher1.group(2).replaceAll("_", "\n");
-            }
-            stringDic += "\n\n" + "@";
-        }
+        stringDic = stringDic.replaceAll("_", "\n");
         writeFile(this.srcDicFile, stringDic, false);
     }
 
     public void changeMean(String keyChange) {
         System.out.print("new mean(Use _ to separate between lines): ");
         String newMean = scanner.nextLine();
-        String stringDic = "@";
-        String regexMean = "^/(.*?)_(.*?)$";
-        String regex_="_";
-        Pattern pattern_=Pattern.compile(regex_);
+        String stringDic = creatStringDic();
+        String regexMean = "^/(.*?)(_\\*)(.*?)$";
         Pattern pattern = Pattern.compile(regexMean);
-        Matcher matcher_=pattern_.matcher(newMean);
         Matcher matcher = pattern.matcher(this.DicHashMap.get(keyChange));
-        String pronounce = "";
-        if (matcher.find()) {
-            pronounce = matcher.group(1);
-        }
-        if (matcher_.find()) {
-            newMean=newMean.replaceAll("_","\n");
-        }
-        for (HashMap.Entry<String, String> entry : this.DicHashMap.entrySet()) {
-            if (entry.getKey().equals(keyChange)) {
-                stringDic += entry.getKey() + " " + pronounce + "\n" + newMean;
+        if (matcher.matches()) {
+            String oldMean = matcher.group(3);
+            oldMean = oldMean.replaceAll("\\s", "#+");
+//            System.out.println(matcher.matches());
+//            System.out.println(oldMean);
 
-                }
-
-             else {
-                Matcher matcher1 = pattern.matcher(entry.getValue());
-                if (matcher1.find())
-                    stringDic += entry.getKey() + " " + entry.getValue().replaceAll("_","\n");
-            }
-            stringDic += "\n\n" + "@";
+            stringDic = stringDic.replace(oldMean, newMean);
         }
+        stringDic = stringDic.replaceAll("(#+)", " ");
+        stringDic = stringDic.replaceAll("_", "\n");
         writeFile(this.srcDicFile, stringDic, false);
     }
 
@@ -138,19 +113,35 @@ public class AdminControl extends GuestControl {
         System.out.print("enter the word you want to delete: ");
         String wordDelete = scanner.nextLine();
         this.DicHashMap.remove(wordDelete);
-        String stringDic = "@";
+        String stringDic = "";
         String regexMean = "^/(.*?)_(.*?)$";
         Pattern pattern = Pattern.compile(regexMean);
-        for (HashMap.Entry<String, String> entry : this.DicHashMap.entrySet()) {
-            Matcher matcher = pattern.matcher(entry.getValue());
-            if (matcher.find()) {
-                stringDic += entry.getKey() + " " + matcher.group(1) + "\n" + matcher.group(2).replaceAll("_", "\n");
-            }
+        for (String keyWord : this.DicHashMap.keySet()) {
+            Matcher matcherMean = pattern.matcher(this.DicHashMap.get(keyWord));
+                if (!keyWord.equals(wordDelete)) {
+                    stringDic +="@"+ keyWord + " " + this.DicHashMap.get(keyWord).replaceAll("//","/")+"\n\n";
+                }
+
         }
-        stringDic += "\n\n" + "@";
+        stringDic = stringDic.replaceAll("_", "\n");
+        stringDic += "@";
         writeFile(this.srcDicFile, stringDic, false);
     }
 
+    public String creatStringDic() {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(this.srcDicFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("File Not Found");
+        }
+        Scanner scanner = new Scanner(inputStream, "UTF-8");
+        scanner.useDelimiter("\\Z");
+        String stringDic = scanner.next();
+        scanner.close();
+        stringDic = stringDic.replaceAll("\\n", "_");
+        return stringDic;
+    }
 
 }
 
