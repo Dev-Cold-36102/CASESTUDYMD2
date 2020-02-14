@@ -56,25 +56,40 @@ public class Guest extends GuestControl {
     public void logIn() {
         String username;
         String pass;
-        do {
-            System.out.print("username: ");
-            username = scanner.nextLine();
-            System.out.print("pass: ");
-            pass = scanner.nextLine();
-            if (!username.equals(this.admin.getUsername()) || !pass.equals(this.admin.getPass())) {
-                System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
-                int submit = scanner.nextInt();
-                if (submit == 2){
-                    break;
-                } else scanner.nextLine();
+        int submitReLogin = 0;
+            do {
+                System.out.print("username: ");
+                username = scanner.nextLine();
+                System.out.print("pass: ");
+                pass = scanner.nextLine();
+                if (this.admin.getAccountListMap().containsKey(username)) {
+                    if (this.admin.getAccountListMap().get(username).equals(pass)) {
+                        this.admin.setUsername(username);
+                        this.admin.setPass(pass);
+                        System.out.println("log in success!");
+                        this.admin.showMenu();
+                    } else {
+                        do {
+                            System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
+                            submitReLogin = scanner.nextInt();
+                            scanner.nextLine();
+                            if (submitReLogin == 2) {
+                                break;
+                            } else scanner.nextLine();
+                        } while (submitReLogin!=1&&submitReLogin!=2);
+                    }
+                } else {
+                    do {
+                        System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
+                        submitReLogin = scanner.nextInt();
 
-            } else {
-                System.out.println("log in success!");
-                this.admin.showMenu();
-                break;
-            }
-        } while (!username.equals(admin.getUsername()) || !pass.equals(admin.getPass()));
-        showMenu();
+                        if (submitReLogin == 2) {
+                            break;
+                        } else scanner.nextLine();
+                    } while (submitReLogin!=1&&submitReLogin!=2);
+                }
+            } while (submitReLogin == 1);
+       showMenu();
 
     }
 }

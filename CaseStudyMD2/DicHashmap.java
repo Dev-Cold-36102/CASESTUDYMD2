@@ -33,7 +33,6 @@ public class DicHashmap {
         HashMap<String, String> dictionaryMap = new HashMap<>();
         Pattern pattern = Pattern.compile(regexKeyValue);
         Matcher matcher = pattern.matcher(stringDic);
-
         while (matcher.find()) {
             dictionaryMap.put(matcher.group(1), matcher.group(2));
         }

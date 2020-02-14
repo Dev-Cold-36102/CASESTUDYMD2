@@ -10,18 +10,18 @@ public class User {
 
     public User(String srcDic, HashMap<String, String> dicHashMap) {
         this.srcDic = srcDic;
-        DicHashMap = dicHashMap;
-
+        this.DicHashMap = dicHashMap;
     }
 
 
     public void logIn() {
-        Admin admin = new Admin(this.DicHashMap, srcDic, "khai", "khai");
+        Admin admin = new Admin(this.DicHashMap, srcDic, "account.txt");
         Guest guest = new Guest(this.DicHashMap, admin);
         System.out.println("1.log in       2.Log in as a guest");
         int choice = scanner.nextInt();
         String username;
         String pass;
+        int submitReLogin = 0;
         if (choice == 1) {
             scanner.nextLine();
             do {
@@ -29,21 +29,33 @@ public class User {
                 username = scanner.nextLine();
                 System.out.print("pass: ");
                 pass = scanner.nextLine();
-                if (!username.equals(admin.getUsername()) || !pass.equals(admin.getPass())) {
-                    System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
-                    int submit = scanner.nextInt();
-                    if (submit == 2){
-                        break;
-                    } else scanner.nextLine();
-
+                if (admin.getAccountListMap().containsKey(username)) {
+                    if (admin.getAccountListMap().get(username).equals(pass)) {
+                        admin.setUsername(username);
+                        admin.setPass(pass);
+                        System.out.println("log in success!");
+                        admin.showMenu();
+                    } else {
+                        do {
+                            System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
+                            submitReLogin = scanner.nextInt();
+                            if (submitReLogin == 2) {
+                                break;
+                            } else scanner.nextLine();
+                        } while (submitReLogin!=2);
+                    }
                 } else {
-                    System.out.println("log in success!");
-                    admin.showMenu();
+                    do {
+                        System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
+                        submitReLogin = scanner.nextInt();
+                        if (submitReLogin == 2) {
+                            break;
+                        } else scanner.nextLine();
+                    } while (submitReLogin!=2);
                 }
-            } while (!username.equals(admin.getUsername()) || !pass.equals(admin.getPass()));
+            } while (submitReLogin == 1);
         }
         guest.showMenu();
-
     }
 
 }
