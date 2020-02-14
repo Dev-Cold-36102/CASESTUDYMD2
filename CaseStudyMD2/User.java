@@ -35,6 +35,7 @@ public class User {
                         admin.setPass(pass);
                         System.out.println("log in success!");
                         admin.showMenu();
+                        break;
                     } else {
                         do {
                             System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
@@ -42,7 +43,7 @@ public class User {
                             if (submitReLogin == 2) {
                                 break;
                             } else scanner.nextLine();
-                        } while (submitReLogin!=2);
+                        } while (submitReLogin!=1&&submitReLogin!=2);
                     }
                 } else {
                     do {
@@ -51,7 +52,7 @@ public class User {
                         if (submitReLogin == 2) {
                             break;
                         } else scanner.nextLine();
-                    } while (submitReLogin!=2);
+                    } while (submitReLogin!=1&&submitReLogin!=2);
                 }
             } while (submitReLogin == 1);
         }

@@ -164,10 +164,8 @@ public class Admin extends AdminControl implements AddAccount, DeleteAccount, Ch
             System.out.print("new pass: ");
             String newPass = scanner.nextLine();
             String stringAccount = creatStringAccount();
-
-
-            stringAccount = stringAccount.replace(this.getUsername(), newUserName);
-            stringAccount = stringAccount.replace(this.getPass(), newPass);
+            String regexAccount="-username:"+this.getUsername()+"enter"+"-pass:"+this.getPass()+"enter"+"-";
+            stringAccount = stringAccount.replace(regexAccount, "-username:"+newUserName+"enter"+"-pass:"+newPass+"enter"+"-");
             stringAccount = stringAccount.replaceAll("enter", "\n");
             writeFile(this.fileAccount, stringAccount, false);
             setAccount();
@@ -191,12 +189,12 @@ public class Admin extends AdminControl implements AddAccount, DeleteAccount, Ch
     @Override
     public void deleteAccount() {
         if (identityVerification()) {
-            System.out.print("are you sure? y/n");
+            System.out.print("are you sure? y/n ");
             String submit=scanner.nextLine();
             if (submit.equals(String.valueOf('y'))) {
                 String stringAccount=creatStringAccount();
-                String regexAccount="-username:"+this.getUsername()+"(enter)"+"-pass:"+this.getPass()+"(enter)"+"-";
-                stringAccount=stringAccount.replace(regexAccount,"-");
+                String regexAccount="-username:"+this.getUsername()+"enter"+"-pass:"+this.getPass()+"enter";
+                stringAccount=stringAccount.replace(regexAccount,"");
                 stringAccount=stringAccount.replaceAll("enter","\n");
                 writeFile(this.fileAccount,stringAccount,false);
                 setAccount();

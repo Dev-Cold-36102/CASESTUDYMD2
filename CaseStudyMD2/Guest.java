@@ -72,7 +72,6 @@ public class Guest extends GuestControl {
                         do {
                             System.out.println("username or pass is incorect. 1.relogin   2.Log in as a guest");
                             submitReLogin = scanner.nextInt();
-                            scanner.nextLine();
                             if (submitReLogin == 2) {
                                 break;
                             } else scanner.nextLine();
