@@ -20,7 +20,6 @@ public class AdminControl extends GuestControl {
         this.srcDicFile = fileDic;
     }
 
-
     public void addNewWord() {
         System.out.println("please input:");
         System.out.print("-word: ");
@@ -39,29 +38,37 @@ public class AdminControl extends GuestControl {
         System.out.print("Please enter the word: ");
         String keyChange = scanner.nextLine();
         if (!isWordExist(keyChange)) {
-            searchApproximateWord(keyChange);
-        }
-        System.out.println("what value you want to change?");
-        System.out.print("1.word    2.pronounce    3.mean\nchoose: ");
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1: {
-                scanner.nextLine();
-                changeWord(keyChange);
-                break;
+            System.out.println("that word is incorrect or the dic does not have it!");
+            System.out.println("what do you want? 1.enter other word   2. search Approximate Word");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            if (choice == 2) {
+                searchApproximateWord(keyChange);
             }
-            case 2: {
-                scanner.nextLine();
-                changePronounce(keyChange);
-                break;
+            changeDic();
+        } else {
+            System.out.println("what value you want to change?");
+            System.out.print("1.word    2.pronounce    3.mean\nchoose: ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1: {
+                    scanner.nextLine();
+                    changeWord(keyChange);
+                    break;
+                }
+                case 2: {
+                    scanner.nextLine();
+                    changePronounce(keyChange);
+                    break;
+                }
+                case 3: {
+                    scanner.nextLine();
+                    changeMean(keyChange);
+                    break;
+                }
             }
-            case 3: {
-                scanner.nextLine();
-                changeMean(keyChange);
-                break;
-            }
-        }
 
+        }
     }
 
     public void changeWord(String keyChange) {
@@ -105,21 +112,34 @@ public class AdminControl extends GuestControl {
         writeFile(this.srcDicFile, stringDic, false);
     }
 
-
     public void deleteWord() {
         System.out.print("enter the word you want to delete: ");
         String wordDelete = scanner.nextLine();
-        String stringDic = creatStringDic();
-        String regexFull = "@(" + wordDelete + ")\\s/(.*?)_{2}";
-        Pattern pattern = Pattern.compile(regexFull);
-        Matcher matcher = pattern.matcher(stringDic);
+        if (!isWordExist(wordDelete)) {
+            System.out.println("that word is incorrect or the dic does not have it!");
+            System.out.println("what do you want? 1.enter other word   2. search Approximate Word");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            if (choice == 2) {
+                searchApproximateWord(wordDelete);
+            }
+            deleteWord();
+        } else {
+            String stringDic = creatStringDic();
+            String regexFull = "@(" + wordDelete + ")\\s/(.*?)_{2}";
+            Pattern pattern = Pattern.compile(regexFull);
+            Matcher matcher = pattern.matcher(stringDic);
 
-        if (matcher.find()) {
-            String entryDelete = "_@" + wordDelete + " /" + matcher.group(2) + "__";
-            stringDic = stringDic.replace(entryDelete, "_");
+            if (matcher.find()) {
+                String entryDelete = "_@" + wordDelete + " /" + matcher.group(2) + "__";
+                stringDic = stringDic.replace(entryDelete, "_");
+            }
+            stringDic = stringDic.replaceAll("_", "\n");
+            System.out.print("Are you sure? y/n: ");
+            String submit = scanner.nextLine();
+            if (submit.equals(String.valueOf('y')))
+                writeFile(this.srcDicFile, stringDic, false);
         }
-        stringDic = stringDic.replaceAll("_", "\n");
-        writeFile(this.srcDicFile, stringDic, false);
     }
 
     public String creatStringDic() {

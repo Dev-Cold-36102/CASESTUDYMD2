@@ -45,7 +45,7 @@ public class Guest extends GuestControl {
             }
             case 5: {
                 scanner.nextLine();
-                return;
+                System.exit(0);
             }
         }
         showMenu();

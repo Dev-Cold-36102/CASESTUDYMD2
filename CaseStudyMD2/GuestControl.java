@@ -182,45 +182,46 @@ public class GuestControl extends ControlAbstract {
         String nameFile;
         int choice = 0;
         boolean submitReplaceOrAdd = false;
-        do {
+        if (wordSearchedList.size()==0) {
+            System.out.println("you hanve not searched any words!");
+        } else {
             do {
-
-                System.out.println("enter the name of file: ");
-                nameFile = scanner.nextLine();
-            } while (nameFile.equals(""));
-
-            String FILENAME = nameFile + ".txt";
-            fileExport = new File(FILENAME);
-            if (!fileExport.exists()) {
-                fileExport.createNewFile();
-            } else {
                 do {
-                    System.out.print("that file is existed.What do you want?\n1.Replace\n2.Enter an other name\n3.Add word to that file\n ");
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
-                } while (choice != 1 && choice != 2 && choice != 3);
+
+                    System.out.println("enter the name of file: ");
+                    nameFile = scanner.nextLine();
+                } while (nameFile.equals(""));
+
+                String FILENAME = nameFile + ".txt";
+                fileExport = new File(FILENAME);
+                if (!fileExport.exists()) {
+                    fileExport.createNewFile();
+                } else {
+                    do {
+                        System.out.print("that file is existed.What do you want?\n1.Replace\n2.Enter an other name\n3.Add word to that file\n ");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+                    } while (choice != 1 && choice != 2 && choice != 3);
+                }
+            } while (choice == 2);
+            if (choice == 1) {
+                String submitReplace;
+                do {
+                    System.out.println("Are you sure? y/n");
+                    submitReplace = scanner.nextLine();
+                } while (!submitReplace.equals(String.valueOf('y')) && !submitReplace.equals(String.valueOf('n')));
+
+                if (submitReplace.equals(String.valueOf('y'))) {
+                    submitReplaceOrAdd = false;
+                } else exportListWord();
+
+            } else submitReplaceOrAdd = true;
+            String wordSearchedString = "";
+            for (int i = 0; i < wordSearchedList.size(); i++) {
+                wordSearchedString += "- " + wordSearchedList.get(i) + "\n";
             }
-        } while (choice == 2);
-
-        if (choice == 1) {
-
-            String submitReplace;
-            do {
-                System.out.println("Are you sure? y/n");
-                submitReplace = scanner.nextLine();
-            } while (!submitReplace.equals(String.valueOf('y')) && !submitReplace.equals(String.valueOf('n')));
-
-            if (submitReplace.equals(String.valueOf('y'))) {
-                submitReplaceOrAdd = false;
-            } else exportListWord();
-
-        } else submitReplaceOrAdd = true;
-        String wordSearchedString = "";
-        for (int i = 0; i < wordSearchedList.size(); i++) {
-            wordSearchedString += "- " + wordSearchedList.get(i) + "\n";
+            writeFile(fileExport, wordSearchedString, submitReplaceOrAdd);
         }
-        writeFile(fileExport, wordSearchedString, submitReplaceOrAdd);
-
     }
 
     @Override

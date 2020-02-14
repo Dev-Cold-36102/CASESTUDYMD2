@@ -85,7 +85,7 @@ public class Admin extends AdminControl {
             }
             case 9: {
                 scanner.nextLine();
-                return;
+                System.exit(0);
             }
         }
         showMenu();

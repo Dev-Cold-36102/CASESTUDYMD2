@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        String pathSrcDic = "dic1.txt";
+        String pathSrcDic = "dic.txt";
         DicHashmap fileDic = new DicHashmap(pathSrcDic);
         HashMap<String, String> dicHashMap = fileDic.inputToHashMapDic();
         User user = new User(pathSrcDic, dicHashMap);
